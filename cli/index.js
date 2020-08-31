@@ -15,7 +15,7 @@ commander
         'Compile YAMLayout files and save them to the output directory.',
     )
     .option('-i, --input <f>', 'Input file or directory', './dev')
-    .option('-o, --output <dir>', 'Output directory', './.build/src')
+    .option('-o, --output <dir>', 'Output directory', './build')
     .option('-r, --root <dir>', 'Project directory root', './dev')
     .action(build);
 

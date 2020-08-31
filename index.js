@@ -13,7 +13,7 @@ const skipCompilation = (text) => /^\# nocompile/i.test(text.split('\n')[0]);
 const defaults = {
     root: "./dev",
     input: "./dev",
-    output: "./.build/src"
+    output: "./build"
 }
 
 const renameFile = (name) => !isYaml(name) ?

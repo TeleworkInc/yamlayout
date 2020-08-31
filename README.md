@@ -1,6 +1,8 @@
 
 # 🍠 YAMLayout 🍠
-This library transpiles YAML to React JSX.   It can compile a single file with `yamlayout compile file.yaml`, or recursively build a directory with `yamlayout build`.
+This library transpiles YAML to React JSX.   It can compile a single file with
+`yamlayout compile file.yaml`, or recursively build a directory with `yamlayout
+build`.
 
 For instance, `example/src/pages/home.yaml` looks like:
 ```yaml
@@ -37,7 +39,12 @@ For instance, `example/src/pages/home.yaml` looks like:
         - p: "Quoted strings work too"
 ```
 
-The `# include hero` transpiles to `import hero from '../components/hero.js'` (it's okay that the component is defined as `hero.yaml`, because it will be transpiled to `hero.js` when built). This example shows many of the basic features, like CSS definitions for `className` and `id`, `include` statements, and providing functions for JSX properties via `function` object.
+The `# include hero` (no `from` statement) transpiles to `import hero from
+'../components/hero.js'`, and it's okay that the component is defined as
+`hero.yaml`, because it will be transpiled to `hero.js` when built. This example
+shows many of the basic features, like CSS definitions for `className` and `id`,
+`include` statements, and providing functions for JSX properties via `function`
+object.
 
 `yamlayout compile example/dev/pages/home.yaml` produces the following output:
 
@@ -51,4 +58,25 @@ const home = (props) => (<><hero>{`Test`}</hero><Div100vh className={`testClass`
 export default home
 ```
 
-Descend into `example/` and run `yamlayout build` to build the `dev/` directory, output will be stored at `.build/src/` by default (for compatibility with `site-rocket`, a tool integrating YAMLayout with Gatsby). (If run without options from outside a YAMLayout project directory, compiled files will be stored next to their YAML counterparts.)
+# Example
+Clone `yamlayout`:
+
+```shell
+git clone https://github.com/TeleworkInc/yamlayout
+```
+
+Enter the directory, link the `yamlayout` CLI, and then enter the `example/`
+dir:
+
+```shell
+cd yamlayout && npm link -f --no-save && cd example
+```
+
+Run `yamlayout build` and build a compiled version of the `dev/` directory
+at `build/`:
+
+```shell
+yamlayout build
+```
+
+Use `yamlayout --help` for more information.
