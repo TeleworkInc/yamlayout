@@ -1,5 +1,4 @@
-
-# 🍠 YAMLayout 🍠
+![yamlayout logo](https://repository-images.githubusercontent.com/291826191/50c1c580-ebac-11ea-81b9-9197c02b8775)
 This library transpiles YAML to React JSX.   It can compile a single file with
 `yamlayout compile file.yaml`, or recursively build a directory with `yamlayout
 build`.
