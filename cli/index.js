@@ -1,5 +1,11 @@
 #!/usr/bin/env node
-/* eslint-disable */
+/**
+ * @fileoverview
+ * CLI endpoint
+ */
+/**
+ * @license MIT
+ */
 
 const commander = require('commander');
 const { build, compile } = require('..');

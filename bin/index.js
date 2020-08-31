@@ -1,7 +1,13 @@
-/* eslint-disable */
+/**
+ * @fileoverview
+ * Utilities for CLI.
+ */
+/**
+ * @license MIT
+ */
 
-const entityCore = require('html-entities').AllHtmlEntities;
-const htmlEntities = new entityCore();
+const EntityCore = require('html-entities').AllHtmlEntities;
+const htmlEntities = new EntityCore();
 
 const sanitize = (str) => {
   if (/\d/.test(str[0])) {
@@ -50,24 +56,50 @@ const toReact = (name = 'Home', input, { imports, includes }) => {
   return importStmts.read() + body + exportStmts;
 };
 
+/**
+ * A utility object for reading and writing to a single output.
+ */
 class Output {
+  /**
+   * Initialize a new Output object.
+   *
+   * @param {string} init
+   * The initial string to set output as.
+   */
   constructor(init = '') {
     this.output = '';
     this.write(init);
   }
 
-  write(s) {
-    return this.output += s;
+  /**
+   * Write a string to the output.
+   *
+   * @param {string} string
+   * @return {string}
+   */
+  write(string) {
+    return this.output += string;
   }
 
-  writeN(s, newline = true) {
+  /**
+   * Write multiple strings to the output.
+   *
+   * @param {string} strings
+   * The string to write.
+   *
+   * @param {boolean} newline
+   * Whether or not to add a newline.
+   *
+   * @return {Output} this
+   */
+  writeN(strings, newline = true) {
     let isString;
 
-    for (const s_i of s) {
-      isString = typeof(s_i) == 'string',
+    for (const string of strings) {
+      isString = typeof(string) == 'string',
       this.write(
           // use if string, else parse JSON
-          (isString ? s_i : toXml(s_i))
+          (isString ? string : toXml(string))
                 // add newline by default
                 + (newline ? '\n' : ''),
       );
@@ -76,12 +108,26 @@ class Output {
     return this;
   }
 
+  /**
+   * Return the current state of the Output.
+   *
+   * @return {string}
+   */
   read() {
     return this.output;
   }
 }
 
+/**
+ * A model for parsing props from a yaml document.
+ */
 class TagModel {
+  /**
+   * The
+   *
+   * @param {string} key
+   * @param {key} val
+   */
   constructor(key, val) {
     this.reservedProps = ['children', 'txt'];
     this.key = key, this.val = val;
@@ -92,6 +138,11 @@ class TagModel {
         .setFields();
   }
 
+  /**
+   * Parse shortcodes from a key value.
+   *
+   * @return {TagModel} this
+   */
   parseShortcodes() {
     let tag; let id; let classes;
     [tag, id] = this.tag.split('#');
@@ -105,14 +156,33 @@ class TagModel {
     return this;
   }
 
-  sanitizeString(s) {
-    return s.replace('`', '\\`');
+  /**
+   * Sanitize a string to embed in the compiled JS document.
+   *
+   * @param {string} string
+   * @return {string}
+   */
+  sanitizeString(string) {
+    return string.replace('`', '\\`');
   }
 
-  stringExpression(s) {
-    return `\{\`${this.sanitizeString(s)}\`\}`;
+  /**
+   * Create a string expression containing the given value.
+   *
+   * @param {string} string
+   * Value to embed in a template literal.
+   *
+   * @return {string}
+   */
+  stringExpression(string) {
+    return `\{\`${this.sanitizeString(string)}\`\}`;
   }
 
+  /**
+   * Parse children from a Tag node.
+   *
+   * @return {TagModel} this
+   */
   parseChildren() {
     const key = this.key;
     const val = this.val;
@@ -130,7 +200,11 @@ class TagModel {
     const valIsArray = val instanceof Array;
     const hasProps = valIsObject && !valIsArray;
     const txtParse = (child) => {
-      if (typeof(child) == 'object' && 'txt' in child && Object.entries(child).length == 1) {
+      if (
+        typeof(child) == 'object' &&
+          'txt' in child &&
+          Object.entries(child).length == 1
+      ) {
         return child.txt;
       }
 
@@ -156,6 +230,11 @@ class TagModel {
     return this;
   }
 
+  /**
+   * Encode object properties as a JSX object.
+   *
+   * @return {TagModel} this
+   */
   encodeProps() {
     let propString = '';
 
@@ -190,6 +269,11 @@ class TagModel {
     return this;
   }
 
+  /**
+   * Set the fields of a JSX string.
+   *
+   * @return {TagModel} this
+   */
   setFields() {
     this.selfClose = `<${this.propsLn} />`;
     this.open = `<${this.propsLn}>`;
@@ -198,6 +282,11 @@ class TagModel {
     return this;
   }
 
+  /**
+   * Build a JSX string from a TagModel.
+   *
+   * @return {TagModel} this
+   */
   build() {
     const output = new Output();
 
@@ -215,6 +304,11 @@ class TagModel {
     return this;
   }
 
+  /**
+   * Return the string value of this TagModel.
+   *
+   * @return {TagModel} this
+   */
   read() {
     return this.output.read();
   }
