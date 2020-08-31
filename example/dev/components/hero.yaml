@@ -1,0 +1,3 @@
+h1.component: |
+  We can use traditional JS syntax to reference props.
+  ${props.children}
