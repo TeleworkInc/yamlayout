@@ -3,6 +3,17 @@ This library transpiles YAML to React JSX.   It can compile a single file with
 `yamlayout compile file.yaml`, or recursively build a directory with `yamlayout
 build`.
 
+The `compile` and `build` functions are exposed to Node as well, simply import
+them: 
+
+```javascript
+import yamlayout from 'yamlayout';
+```
+*- or -*
+```javascript
+const { require, build } = require('yamlayout');
+```
+
 For instance, `example/src/pages/home.yaml` looks like:
 ```yaml
 # import Div100vh from 'react-div-100vh'
