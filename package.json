@@ -1,6 +1,6 @@
 {
   "name": "yamlayout",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Build React layouts with YAML.",
   "main": "./index.js",
   "bin": {
